@@ -1,27 +1,36 @@
+import java.util.Collections
 import java.util.LinkedList
+import java.util.TreeMap
+import java.util.TreeSet
 
 fun prioritize(tasks: IntArray) {
 
-    var calculated = 1
-    do {
+    val weights = TreeMap<Int, Int>(Collections.reverseOrder())
 
-        var maxPriority = 0
+    for (i in tasks) {
+        weights[i] = 0
+    }
 
-        tasks?.map { if (-it > maxPriority && it < 0) maxPriority = -it }
+    var lastIndex = -1
+    var calculated = -1
+    for (i in weights.keys) {
 
-        if (maxPriority == 0) {
-            // done
+        if (lastIndex == -1) {
+            calculated = 1
+            lastIndex = i
+            weights[i] = calculated
+        } else if (i + 1 == lastIndex) {
+            weights[i] = calculated
         } else {
-            if (tasks != null) {
-                for (i in tasks.indices) {
-                    if (tasks[i] < 0 && -tasks[i] >= (maxPriority-1) ) tasks[i] = calculated
-                }
-            }
-            //tasks?.map { if (it < 0 && -it >= (maxPriority-1) ) calculated }
             calculated++
+            lastIndex = i
+            weights[i] = calculated
         }
+    }
 
-    } while (maxPriority > 0)
+    for (i in tasks.indices) {
+        tasks[i] = weights[tasks[i]] ?: 0
+    }
 }
 
 fun main(args: Array<String>) {
@@ -34,7 +43,9 @@ fun main(args: Array<String>) {
     for (i in 1 .. setAmount) {
         val taskAmount = Integer.parseInt(readLine()) // for what??
 
-        val array = readLine()?.split(" ")?.map { -it.toInt()}
+        val array = readLine()?.split(" ")?.map { it.toInt()}
+        //val array = "3 1 4 1 5 9 2 6 5 3 5 8 9".split(" ")?.map { it.toInt()}
+
 
         if (array != null) {
             setList.add(array.toIntArray())
