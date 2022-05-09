@@ -28,8 +28,6 @@ fun main(args: Array<String>) {
 
     val setAmount = Integer.parseInt(readLine())
 
-    val setList = ArrayList<ArrayList<Task>>()
-
     for (i in 1 .. setAmount) {
         readLine()
         val taskAmount = Integer.parseInt(readLine())
@@ -40,13 +38,6 @@ fun main(args: Array<String>) {
             arr.add(Task(str!!.split(" ")[0].toInt(), str!!.split(" ")[1].toInt()))
         }
 
-        if (arr != null) {
-            setList.add(arr)
-        }
-    }
-
-    // prioritizing
-    for (list in setList) {
-        doWork(list)
+        doWork(arr)
     }
 }
